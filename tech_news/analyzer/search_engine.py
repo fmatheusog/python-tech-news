@@ -6,7 +6,7 @@ from tech_news.database import search_news
 def search_by_title(title):
     response = list()
 
-    data = search_news({"title": {"$regex": title, "$options": "1"}})
+    data = search_news({"title": {"$regex": title, "$options": "i"}})
 
     for item in data:
         response.append((item["title"], item["url"]))
