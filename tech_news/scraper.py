@@ -34,7 +34,27 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+
+    url = selector.css("link[rel=canonical]::attr(href)").get()
+    title = selector.css(".entry-title::text").get()
+    date = selector.css(".meta-date::text").get()
+    writer = selector.css(".author a::text").get()
+    summary = selector.css(".entry-content > p:nth-of-type(1) ::text").getall()
+    comments = selector.css(".post-comments .title-block::text").getall()
+    tags = selector.css(".post-tags li a::text").getall()
+    category = selector.css(".meta-category .label::text").get()
+
+    return {
+        "url": url,
+        "title": title.strip(),
+        "timestamp": date,
+        "writer": writer,
+        "comments_count": len(comments),
+        "summary": "".join(summary).strip(),
+        "tags": tags,
+        "category": category
+    }
 
 
 # Requisito 5
